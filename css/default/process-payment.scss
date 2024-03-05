@@ -1,0 +1,10 @@
+@use "../../Shared/css/template/dtm/utils/scope";
+@use "../interfaces/app";
+@use "../interfaces/dtm";
+
+@include scope.for-template {
+    @include app.defer;
+}
+
+@include dtm.new;
+@include dtm.process-payment;

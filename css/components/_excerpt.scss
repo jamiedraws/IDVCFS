@@ -1,0 +1,107 @@
+/**
+* @prettier
+*/
+
+$select: ".excerpt" !default;
+$breakpoint: 1200px !default;
+
+@use "../themes/colors";
+@use "../themes/fonts";
+
+@use "../layouts/slide";
+@use "../layouts/queries";
+
+@use "../components/copy";
+
+@mixin new {
+	#{$select} {
+		&__item {
+			display: flex;
+			flex-direction: column;
+			flex: 0 1 36.5rem;
+			background: white;
+			border: 10px solid transparent;
+			transition: border-color 0.3s ease-in-out;
+			font-family: fonts.$second, sans-serif;
+			text-align: left;
+			text-decoration: none;
+
+			&:focus,
+			&:hover {
+				border-color: colors.$second;
+			}
+		}
+
+		picture {
+			max-width: none;
+			margin: 0;
+		}
+
+		&__content {
+			padding: 2rem;
+			width: 100%;
+			@include copy.separate;
+		}
+
+		&__category {
+			font: bold 1.4rem fonts.$first, sans-serif;
+			color: colors.$second;
+			text-transform: uppercase;
+		}
+
+		&__title {
+			font: 2.4rem fonts.$second, sans-serif;
+		}
+
+		@content;
+	}
+}
+
+@mixin carousel {
+	#{$select} {
+		&--carousel {
+			max-width: 170rem;
+			margin-left: auto;
+			margin-right: auto;
+
+			@include slide.convert-to-carousel($select);
+
+			#{$select} {
+				&__item {
+					max-width: none;
+				}
+
+				&__group {
+					margin: 0;
+					max-width: none;
+				}
+
+				@media all and (min-width: 420px) {
+					&__item {
+						max-width: 45vw;
+					}
+
+					&__group {
+						max-width: 92vw;
+					}
+				}
+
+				@media all and (min-width: 800px) {
+					&__item {
+						max-width: 29.6vw;
+					}
+				}
+
+				@media all and (min-width: 1200px) {
+					&__group {
+						max-width: 152rem;
+					}
+
+					&__item {
+						max-width: 36.5rem;
+					}
+				}
+			}
+		}
+	}
+}

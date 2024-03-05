@@ -1,0 +1,63 @@
+/**
+* @prettier
+*/
+
+@use "../layouts/group";
+@use "../themes/colors";
+@use "../themes/fonts";
+
+@use "../components/copy";
+
+$select: ".story-article" !default;
+
+@mixin new {
+	#{$select} {
+		font-size: 3rem;
+
+		&__group {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: center;
+			align-items: center;
+
+			@include group.gutter(2rem);
+		}
+
+		&__copy {
+			flex: 0 1 72rem;
+			@include copy.separate(2rem);
+		}
+
+		picture {
+			max-width: 59.1rem;
+		}
+
+		&__video {
+			max-width: 84rem;
+		}
+
+		&__standfirst {
+			color: colors.$second;
+			font-size: 2.4rem;
+			@include bold;
+		}
+
+		&__standfirst + h2 {
+			margin-top: 0;
+		}
+
+		h2 {
+			font-size: 6rem;
+			line-height: 1.25;
+			@include bold;
+		}
+
+		@content;
+	}
+}
+
+@mixin bold {
+	font-family: fonts.$first, sans-serif;
+	font-weight: normal;
+	text-transform: uppercase;
+}

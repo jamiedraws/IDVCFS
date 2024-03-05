@@ -1,0 +1,52 @@
+/**
+* @prettier
+*/
+
+$select: ".icon-caption" !default;
+$item-basis: 25rem !default;
+$group-carousel: 600px !default;
+
+@use "../layouts/story-card";
+@use "../layouts/group";
+@use "../layouts/slide";
+
+@mixin new {
+	@include story-card.new($select, $item-basis, 15rem);
+
+	#{$select} {
+		& > &__group {
+			max-width: 140rem;
+			@include group.gutter(1rem);
+		}
+
+		picture {
+			background: transparent;
+		}
+
+		@content;
+	}
+}
+
+@mixin carousel($breakpoint: $group-carousel) {
+	@media all and (min-width: $breakpoint) {
+		#{$select} {
+			&--carousel {
+				#{$select} {
+					&__group {
+						@include group.item-basis($item-basis);
+					}
+				}
+				@include slide.take-out-thumbnails($select);
+				@include slide.take-out-nav($select);
+			}
+		}
+	}
+
+	@media all and (max-width: $breakpoint) {
+		#{$select} {
+			&--carousel {
+				@include slide.convert-to-carousel($select);
+			}
+		}
+	}
+}

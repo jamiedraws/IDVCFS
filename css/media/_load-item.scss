@@ -1,0 +1,29 @@
+@use "../../Shared/css/template/dtm/utils/arp";
+
+$select: ".load-item" !default;
+
+@mixin new($select: $select) {
+	@include arp.defer(
+		(
+			select: "#{$select}",
+			load-item: "#{$select}"
+		)
+	);
+
+	#{$select} {
+		@include arp.container;
+		@include arp.pseudo;
+
+		@content;
+	}
+}
+
+@mixin from-top {
+	&--from-top {
+		overflow: initial;
+		
+		&::after {
+			bottom: auto;
+		}
+	}
+}

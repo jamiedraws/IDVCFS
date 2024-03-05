@@ -1,0 +1,33 @@
+/**
+* @prettier
+*/
+
+$select: ".photo-article" !default;
+
+@mixin new {
+	#{$select} {
+		display: flex;
+		flex-wrap: wrap;
+
+		> * {
+			flex: 1 1 60rem;
+		}
+
+		&--reverse {
+			flex-direction: row-reverse;
+		}
+
+		&__copy {
+			max-width: 60rem;
+			margin: 3rem 2rem;
+		}
+
+		&__item {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		@content;
+	}
+}

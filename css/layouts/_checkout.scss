@@ -1,0 +1,81 @@
+/**
+* @prettier
+*/
+
+$select: ".checkout" !default;
+$border-color: currentColor !default;
+$background: #fafafa !default;
+
+@use "../layouts/group";
+@use "../components/copy";
+
+@mixin box {
+	background: $background;
+	border: 1px solid $border-color;
+}
+
+@mixin new {
+	#{$select} {
+		color: black;
+
+		&__banner {
+			@include box;
+			padding: 1rem;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			font-weight: bold;
+			font-size: 1.5rem;
+			font-family: inherit;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-around;
+			margin: 1rem 0;
+		}
+
+		> #{$select}__banner {
+			margin: 2rem 0;
+		}
+
+		@content;
+	}
+}
+
+@mixin cart {
+	#{$select}--cart {
+		@include box;
+		@include copy.separate(3rem);
+		padding: 3rem;
+
+		hr {
+			background: $border-color;
+			border: 0;
+			height: 1px;
+			width: 100%;
+			display: block;
+		}
+	}
+}
+
+@mixin order-item {
+	#{$select}--order-item {
+		#{$select}__group {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			align-items: center;
+
+			@include group.gutter(1rem);
+		}
+	}
+}
+
+@mixin offer-details {
+	#{$select} {
+		&--offer-details {
+			background: white;
+			padding: 2rem;
+			border: 1px solid;
+			@include copy.separate;
+		}
+	}
+}

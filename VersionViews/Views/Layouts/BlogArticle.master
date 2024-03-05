@@ -1,0 +1,109 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage<ClientSiteViewData>" %>
+<%@ Import Namespace="Dtm.Framework.ClientSites" %>
+<%@ Import Namespace="Dtm.Framework.Models.Ecommerce" %>
+
+<% 
+    var blogPost = ViewData["BlogPost"] as BlogPost ?? new BlogPost();
+    var blogTitle = blogPost.Title;
+    var blogDescription = blogPost.ShortDescription;
+    var blogThumbnail = blogPost.Meta;
+    var blogUrl = String.Format("{0}Articles/{1}", DtmContext.Domain.FullDomain, blogPost.UrlSlug);
+%>
+
+<!DOCTYPE html>
+<html id="dtm" lang="en" class="dtm">
+  
+	<head>
+
+		<title><%= blogTitle %></title>
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <meta name="description" content="<%= blogDescription %>">
+	    <meta name="keywords" content="<%= Model.PageMetaKeywords %>">
+
+		<!-- // Open Graph Metadata -->
+		<meta property="og:title" content="<%= blogTitle %>">
+		<meta property="og:type" content="website">
+		<meta property="og:description" content="<%= blogDescription %>">
+		<meta property="og:url" content="<%= blogUrl %>">
+		<meta property="og:image" content="<%= blogThumbnail %>">
+
+		<!-- // Twitter Metadata -->
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:title" content="<%= blogTitle %>">
+		<meta name="twitter:description" content="<%= blogDescription %>">
+		<meta name="twitter:image" content="<%= blogThumbnail %>">
+		<meta name="twitter:domain" content="<%= blogUrl %>">
+
+	    <% if (DtmContext.IsProxyIpAddress || DtmContext.CampaignDomains.Any(d => d.DomainId == DtmContext.DomainId && d.Domain.ToLower().Contains("dtmstage"))) { %>
+
+	        <meta name="robots" content="noindex, nofollow">
+
+	    <% } else { %>
+
+	        <meta name="google-site-verification" content="<%= Model.PageMetaVerify %>">
+            <meta name="msvalidate.01" content="617F9E44E7841BBC8E57FE0772BB9DD9">
+	        <link rel="canonical" href="<%= blogUrl %>">
+
+	    <% } %>
+
+        <% 
+            var faviconVersion = String.Format("?fv={0}", 1);
+            var themeColor = "#FFFFFF";
+        %>
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg<%= faviconVersion %>">
+        <link rel="mask-icon" type="image/svg+xml" href="/safari-pinned-tab.svg<%= faviconVersion %>" color="#000000">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png<%= faviconVersion %>">
+		<link rel="alternate icon" type="image/png" href="/android-chrome-192x192.png<%= faviconVersion %>">
+        <link rel="manifest" href="/site.webmanifest">
+
+        <meta name="msapplication-TileColor" content="<%= themeColor %>">
+        <meta name="theme-color" content="<%= themeColor %>">
+		
+		<%
+			Html.RenderPartial("ResourceManager", new ViewDataDictionary { { "preload", true } });
+			Html.RenderPartial("ResourceManager");
+            Html.RenderPartial("ResourceManager", new ViewDataDictionary { { "defer", true } });
+		%>
+
+		<asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
+
+	</head>
+
+	<body class="dtm__in">
+
+		<%= Html.Partial("Header") %>
+
+        <div class="defer defer--from-top view section">
+            <div class="defer__progress view__in section__in">
+		        <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
+            </div>
+        </div>
+
+        <div class="defer">
+            <div class="defer__progress">
+                <% 
+                    Html.RenderPartial("Footer");
+                %>
+                <span class="svg-symbols">
+                    <svg>
+                        <symbol id="icon-chevron" x="0px" y="0px" viewBox="0 0 5.3 8.2" style="enable-background:new 0 0 5.3 8.2;">
+                            <path d="M0.8,4.2 M0.8,4.2L4,1 M4,7.4L0.8,4.2"/>
+                        </symbol>
+                    </svg>
+                </span>
+            </div>
+        </div>
+        
+        <div class="modal" role="dialog" aria-labelledby="modal-text">
+            <div class="modal__load-state"></div>
+            <div id="modal-text" class="modal__text">Loading</div>
+            <button type="button" class="modal__button">Close</button>
+        </div>
+		
+        <%  Html.RenderPartial("GetVersionScripts", Model); %>
+		<%= Model.FrameworkVersion %>
+
+	</body>
+
+</html>

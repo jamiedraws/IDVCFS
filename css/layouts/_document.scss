@@ -1,0 +1,172 @@
+@use "../themes/fonts";
+@use "../themes/colors";
+
+$container: 1000px !default;
+$breakpoint: 1200px !default;
+
+@mixin set-document-size() {
+	font-size: 62.8%;
+
+	@media all and (min-width: $container) {
+		font-size: .45vw;
+	}
+
+	@media all and (max-width: 120rem) {
+		font-size: 0.55vw;
+		font-size: clamp(40%, 0.55vw, 62.8%);
+	}
+
+	@media all and (max-width: $breakpoint) {
+		font-size: 0.75vw;
+		font-size: clamp(45%, 0.75vw, 62.8%);
+	}
+}
+
+@mixin new {
+	*,
+	::before,
+	::after {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+	html,
+	body {
+		width: 100%;
+		height: auto;
+	}
+
+	html {
+		scroll-behavior: smooth;
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+
+		-webkit-text-size-adjust: 100%;
+		-moz-text-size-adjust: 100%;
+		-ms-text-size-adjust: 100%;
+		text-size-adjust: 100%;
+
+		@include set-document-size();
+	}
+
+	body {
+		font: 16px/1.25 fonts.$second, sans-serif;
+		color: colors.$first;
+		margin: 0;
+
+		@supports (display: flex) {
+			min-height: 100vh;
+			display: flex;
+			flex-direction: column;
+		}
+
+		> footer {
+			flex: 1;
+		}
+	}
+
+	main {
+		display: block;
+	}
+
+	a:focus,
+	button:focus,
+	label:focus {
+		outline: 2px solid colors.$first;
+	}
+
+	:link,
+	:visited {
+		text-decoration: underline;
+		color: inherit;
+		word-break: break-word;
+	}
+
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-family: fonts.$first, sans-serif;
+		word-break: break-word;
+	}
+
+	h2 {
+		font-size: 4.5rem;
+		@media all and (max-width: $breakpoint) {
+			font-size: clamp(1.5rem, 4.8vw, 3rem);
+		}
+	}
+
+	h3 {
+		font-size: 2.8rem;
+	}
+
+	ul,
+	ol {
+		margin-left: 1.5rem;
+	}
+
+	img {
+		max-width: 100%;
+		height: auto;
+		width: auto;
+	}
+
+	img,
+	iframe,
+	picture,
+	figure {
+		display: block;
+	}
+
+	figure {
+		margin: 0;
+	}
+
+	small {
+		font-size: 80%;
+	}
+
+	sup,
+	sub {
+		font-size: 50%;
+		line-height: 0;
+		position: relative;
+		margin: 0 0.25em;
+	}
+
+	sup {
+		// bottom: 0.33em;
+	}
+
+	sub {
+		bottom: -0.33em;
+	}
+
+	::selection {
+		background: colors.$first;
+		color: colors.$light;
+	}
+
+	button,
+	input,
+	select {
+		background: none;
+		appearance: none;
+		border: 0;
+		font-size: 16px;
+		border-radius: 0;
+		box-shadow: none;
+		word-break: break-word;
+	}
+
+	button,
+	select {
+		cursor: pointer;
+	}
+}

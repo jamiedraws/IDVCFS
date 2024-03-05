@@ -1,0 +1,33 @@
+@use "../../Shared/css/template/dtm/utils/center-absolute" as position;
+
+$select: ".position" !default;
+$breakpoint: 1500px !default;
+
+@mixin new {
+	#{$select} {
+		position: relative;
+
+		&__overlay {
+			@include position.center-absolute;
+			z-index: 2;
+		}
+
+		@content;
+	}
+}
+
+@mixin flip($breakpoint: $breakpoint) {
+	@media all and (max-width: $breakpoint) {
+		#{$select} {
+			&__overlay {
+				position: relative;
+			}
+
+			&__underlay {
+				@include position.center-absolute;
+			}
+
+			@content;
+		}
+	}
+}

@@ -1,0 +1,36 @@
+$first: orbitron;
+$second: europa;
+
+@mixin request {
+    @font-face {
+        font-family: orbitron;
+        font-display: swap;
+        font-weight: 900;
+        src: url(/fonts/orbitron-black.woff2) format("woff2"),
+            url(/fonts/orbitron-black.woff) format("woff");
+    }
+
+    @font-face {
+        font-family: orbitron;
+        font-display: swap;
+        font-weight: 700;
+        src: url(/fonts/orbitron-bold.woff2) format("woff2"),
+            url(/fonts/orbitron-bold.woff) format("woff");
+    }
+
+    @font-face {
+        font-family: orbitron;
+        font-display: fallback;
+        font-weight: 500;
+        src: url(/fonts/orbitron-medium.woff2) format("woff2"),
+            url(/fonts/orbitron-medium.woff) format("woff");
+    }
+
+    @font-face {
+        font-family: orbitron;
+        font-display: fallback;
+        font-weight: 400;
+        src: url(/fonts/orbitron-light.woff2) format("woff2"),
+            url(/fonts/orbitron-light.woff) format("woff");
+    }
+}

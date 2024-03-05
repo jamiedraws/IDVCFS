@@ -1,0 +1,137 @@
+﻿<%@ Master Language="C#" Inherits="System.Web.Mvc.ViewMasterPage<ClientSiteViewData>" %>
+<%@ Import Namespace="Dtm.Framework.ClientSites" %>
+<%@ Import Namespace="Dtm.Framework.Models.Ecommerce.Repositories" %>
+<%@ Import Namespace="Dtm.Framework.Base.TokenEngines" %>
+
+<% 
+    var item = Request["item"] ?? string.Empty;
+    var pageRepo = new PageRepository();
+    var pages = pageRepo.GetCampaignPages(DtmContext.CampaignCode);
+    var hasPage = pages.Any(p => p.PageCode == item);
+
+    var title = Model.PageTitle;
+    var desc = Model.PageMetaDescription;
+    var keywords = Model.PageMetaKeywords;
+    var url = String.Format("{0}/Product?item={1}", DtmContext.Domain.FullDomain, item);
+
+    var getTwitterImage = SettingsManager.ContextSettings["SocialPlugins.Twitter.OpenGraphImage"];
+    var getFacebookImage = SettingsManager.ContextSettings["SocialPlugins.Facebook.OpenGraphImage"];
+
+    if (hasPage)
+    {
+        var toke = new TokenEngine();
+        var page = pages.FirstOrDefault(p => p.PageCode == item);
+
+        title = toke.Process(page.PageTitle, baseClientViewData: Model).Content;
+        desc = toke.Process(page.MetaDescription, baseClientViewData: Model).Content;
+        keywords = toke.Process(page.MetaKeywords, baseClientViewData: Model).Content;
+
+        var product = DtmContext.CampaignProducts.Where(cp => cp.ProductCode == item && !String.IsNullOrEmpty(cp.PropertyIndexer["MainProductImage"]));
+        if (product.Any())
+        {
+            var productImage = product.Select(cp => new { Url = cp.PropertyIndexer["MainProductImage"] }).FirstOrDefault();
+
+            var image = productImage.Url;
+
+            if (!string.IsNullOrEmpty(image))
+            {
+                getTwitterImage = productImage.Url;
+                getFacebookImage = productImage.Url;
+            }
+        }
+    } else
+    {
+        var landingPageUrl = String.Format("/{0}/{1}/index{2}", DtmContext.OfferCode, DtmContext.Version, DtmContext.ApplicationExtension);
+        Response.Redirect(landingPageUrl);
+    }
+%>
+
+
+
+<!DOCTYPE html>
+<html id="dtm" lang="en" class="dtm">
+  
+	<head>
+
+		<title><%= title %></title>
+	    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	    <meta name="description" content="<%= desc %>">
+	    <meta name="keywords" content="<%= keywords %>">
+
+		<!-- // Open Graph Metadata -->
+		<meta property="og:title" content="<%= title %>">
+		<meta property="og:type" content="website">
+		<meta property="og:description" content="<%= desc %>">
+		<meta property="og:url" content="<%= url %>">
+		<meta property="og:image" content="<%= getFacebookImage %>">
+
+		<!-- // Twitter Metadata -->
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:title" content="<%= title %>">
+		<meta name="twitter:description" content="<%= desc %>">
+		<meta name="twitter:image" content="<%= getTwitterImage %>">
+		<meta name="twitter:domain" content="<%= url %>">
+
+	    <% if (DtmContext.IsProxyIpAddress || DtmContext.CampaignDomains.Any(d => d.DomainId == DtmContext.DomainId && d.Domain.ToLower().Contains("dtmstage"))) { %>
+
+	        <meta name="robots" content="noindex, nofollow">
+
+	    <% } else { %>
+
+	        <meta name="google-site-verification" content="<%= Model.PageMetaVerify %>">
+            <meta name="msvalidate.01" content="617F9E44E7841BBC8E57FE0772BB9DD9">
+	        <link rel="canonical" href="<%= DtmContext.Domain.FullDomain %>">
+
+	    <% } %>
+
+        <% 
+            var faviconVersion = String.Format("?fv={0}", 1);
+            var themeColor = "#FFFFFF";
+        %>
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg<%= faviconVersion %>">
+        <link rel="mask-icon" type="image/svg+xml" href="/safari-pinned-tab.svg<%= faviconVersion %>" color="#000000">
+        <link rel="apple-touch-icon" sizes="144x144" href="/apple-touch-icon-144x144.png<%= faviconVersion %>">
+		<link rel="alternate icon" type="image/png" href="/android-chrome-192x192.png<%= faviconVersion %>">
+        <link rel="manifest" href="/site.webmanifest">
+
+        <meta name="msapplication-TileColor" content="<%= themeColor %>">
+        <meta name="theme-color" content="<%= themeColor %>">
+		
+		<%
+			Html.RenderPartial("ResourceManager", new ViewDataDictionary { { "preload", true } });
+			Html.RenderPartial("ResourceManager");
+            Html.RenderPartial("ResourceManager", new ViewDataDictionary { { "defer", true } });
+		%>
+
+		<asp:ContentPlaceHolder ID="head" runat="server"></asp:ContentPlaceHolder>
+
+	</head>
+
+	<body class="dtm__in">
+
+		<%= Html.Partial("Header") %>
+
+		<asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
+
+        <div class="defer">
+            <div class="defer__progress">
+                <div style="display: none;">
+                <% Html.RenderPartial("OrderFormReviewTable"); %>
+                </div>
+                <% 
+                    Html.RenderPartial("Footer");
+                %>
+            </div>
+        </div>
+
+        <%
+            Html.RenderPartial("GetVersionScripts", Model);
+            Html.Partial("CartCommon"); 
+        %>
+		
+		<%= Model.FrameworkVersion %>
+
+	</body>
+
+</html>

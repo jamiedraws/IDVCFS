@@ -1,0 +1,5 @@
+@use "../interfaces/app";
+@use "../interfaces/blog";
+
+@include blog.post;
+@include app.explore($critical: false);

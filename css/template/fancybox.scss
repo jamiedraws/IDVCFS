@@ -1,0 +1,4 @@
+@use "../interfaces/fancybox";
+
+@include fancybox.page;
+@include fancybox.transparent;

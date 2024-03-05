@@ -1,0 +1,612 @@
+/**
+* @prettier
+*/
+
+@use "../themes/colors";
+@use "../themes/fonts";
+@use "../themes/background";
+
+@use "../layouts/queries";
+@use "../layouts/document" with (
+    $container: queries.$xl,
+    $breakpoint: queries.$document
+);
+@use "../layouts/section" with (
+    $container: queries.$xl
+);
+@use "../layouts/view";
+@use "../layouts/full-width-picture" as fwp with (
+    $breakpoint: queries.$hero
+);
+@use "../layouts/group";
+@use "../layouts/story-card" with (
+    $group-carousel: queries.$group-carousel
+);
+@use "../layouts/story-article";
+@use "../layouts/icon-caption" with (
+    $group-carousel: queries.$group-carousel
+);
+@use "../layouts/form" with (
+    $border-color: colors.$border
+);
+@use "../layouts/slide";
+@use "../layouts/carousel";
+@use "../layouts/quote";
+@use "../layouts/article";
+@use "../layouts/product-carousel";
+@use "../layouts/product";
+@use "../layouts/photo-article";
+@use "../layouts/hero" with (
+    $breakpoint: queries.$hero
+);
+@use "../layouts/page" with (
+    $breakpoint: queries.$hero
+);
+
+@use "../media/load-item";
+@use "../media/contain";
+
+@use "../interfaces/header" with (
+    $breakpoint: queries.$nav,
+    $breakpoint-max: queries.$nav-max
+);
+@use "../interfaces/footer";
+@use "../interfaces/toast";
+@use "../components/title";
+@use "../components/button";
+@use "../components/logo";
+@use "../components/circular";
+@use "../components/banner";
+@use "../components/icons";
+@use "../components/copy";
+@use "../components/card";
+@use "../components/chart" with (
+    $border-color: colors.$border
+);
+@use "../components/dropdown" with (
+    $border-color: colors.$border
+);
+@use "../components/stars";
+@use "../components/breadcrumbs";
+@use "../components/excerpt";
+@use "../components/list";
+@use "../components/promo-offer";
+
+@use "../../Shared/css/template/dtm/components/modal" with (
+    $color: white,
+    $background-color: rgba(0,0,0,0.4)
+);
+
+// for the critical rendering path
+@mixin critical {
+    @include fonts.request;
+
+    @include document.new;
+    @include view.new;
+    @include section.new;
+    @include load-item.new(".defer") {
+        @include load-item.from-top;
+    }
+    @include background.new;
+    @include contain.new;
+    @include form.new;
+
+    #{contain.$select} {
+        &--cf {
+            @include contain.ratio(228/72);
+            flex: 0 1 22.8rem;
+        }
+
+        &--ll {
+            @include contain.ratio(225/28);
+            flex: 0 1 22.5rem;
+        }
+
+        &--icon {
+            &-search {
+                @include contain.ratio(1/1);
+                flex: 0 1 2.5em;
+            }
+
+            &-person {
+                @include contain.ratio(125/150);
+                flex: 0 1 2em;
+            }
+
+            &-bag {
+                @include contain.ratio(125/150);
+                flex: 0 1 2em;
+            }
+        }
+
+        &--nav-thumbnail {
+            @include contain.ratio(1/1);
+            max-width: 50px;
+        }
+    }
+
+    @include header.nav;
+    @include header.search;
+    @include circular.new;
+    @include banner.new;
+
+    @content;
+}
+
+// defer rendering at the base level
+@mixin defer {
+    @include group.new;
+    @include load-item.new;
+    @include slide.new;
+
+    @include background.dark;
+    @include background.image;
+
+    @include title.new;
+    @include footer.new;
+    @include footer.carousel;
+    @include toast.new;
+    @include toast.polite;
+    @include modal.new {
+        font-size: 2rem;
+    }
+
+    @include icons.new;
+
+    @include button.new(colors.$second, colors.$light) {
+        text-transform: uppercase;
+        font-family: fonts.$first, sans-serif;
+    }
+
+    #{contain.$select} {
+        &--logo {
+            @include contain.ratio(202/49) {
+                width: 20.2rem;
+            }
+        }
+
+        &--square {
+            @include contain.ratio(1/1);
+        }
+
+        &--video {
+            @include contain.ratio(16/9);
+        }
+
+        &--facebook {
+            @include contain.ratio(26/57) {
+                width: 2.6rem;
+            }
+        }
+
+        &--twitter {
+            @include contain.ratio(55/48) {
+                width: 5.5rem;
+            }
+        }
+
+        &--pinterest {
+            @include contain.ratio(45/57) {
+                width: 4.5rem;
+            }
+        }
+
+        &--instagram {
+            @include contain.ratio(1/1) {
+                width: 4.7rem;
+            }
+        }
+    }
+
+    @content;
+}
+
+@mixin landing-page {
+    @include defer;
+    @include article.new;
+
+    #{section.$select} {
+        &__contain-article {
+            max-width: 102rem;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0;
+        }
+    }
+
+    @content;
+}
+
+// home page
+@mixin index($critical: false) {
+    @if $critical {
+        @include hero;
+        @include slide.fade;
+
+        @include story-card.new;
+        @include story-card.max-three;
+        @include story-card.max-four;
+        @include story-card.image-link;
+        @include story-card.image-button;
+        @include story-card.carousel;
+
+        @include defer;
+    } @else {
+        @include icon-caption.new;
+        @include icon-caption.carousel;
+
+        @include fwp.flip;
+        @include card.new;
+        @include card.full-width-picture(queries.$hero);
+        @include card.quote(queries.$hero);
+
+        @include carousel.new;
+        @include quote.new {
+            &__video {
+                max-width: 60rem;
+                margin-left: auto;
+                margin-right: auto;
+                background: colors.$dark;
+            }
+        }
+    }
+}
+
+@mixin hero {
+    @include fwp.new;
+
+    #{contain.$select} {
+        &--photo-bar {
+            @media all and (min-width: 600px) {
+                @include contain.ratio(2000/835);
+            }
+
+            @media all and (max-width: 600px) {
+                @include contain.ratio(600/255);
+            }
+        }
+    }
+}
+
+// product collection page
+@mixin product-collection-page($critical: false) {
+    @if $critical {
+        @include fwp.new;
+        #{contain.$select} {
+            &--photo-bar {
+                @include contain.ratio(2000/740);
+            }
+        }
+    } @else {
+        @include story-card.new;
+        @include story-card.max-three;
+        @include story-card.image-link;
+        @include story-card.buttons;
+        @include story-card.carousel;
+        @include story-article.new;
+
+        @include button.first;
+
+        @include form.fieldset;
+        @include form.icon-field-combobox;
+        @include form.select;
+
+        @include faq;
+
+        #{contain.$select} {
+            &--video-gallery,
+            &--photo-gallery {
+                max-width: 90rem;
+                background: whitesmoke;
+            }
+            &--video-gallery {
+                iframe {
+                    border: none;
+                }
+            }
+            &--photo-gallery {
+                @include contain.ratio(900/607);
+            }
+        }
+
+        @include card.carousel;
+        @include icon-caption.new;
+        @include icon-caption.carousel;
+    }
+}
+
+// product detail page
+@mixin product-detail-page($critical: false) {
+    @if $critical {
+        @include hero;
+        @include hero.new;
+        @include page.new;
+
+        #{group.$select} {
+            > #{contain.$select} {
+                &--photo-gallery,
+                &--video-gallery {
+                    flex: 1 1 85rem;
+                }
+            }
+        }
+
+        #{contain.$select} {
+            &--hero-banner {
+                @media all and (min-width: 600px) {
+                    @include contain.ratio(2000/683);
+                }
+
+                @media all and (max-width: 600px) {
+                    @include contain.ratio(600/683);
+                }
+            }
+
+            &--logo-white {
+                @include contain.ratio(269/101) {
+                    max-width: 32em;
+                }
+            }
+
+            &--product-logo {
+                &-gdq-angel {
+                    @include contain.ratio(676/127);
+                    max-width: 37em;
+                }
+
+                &-gdq-ice {
+                    @include contain.ratio(482/159);
+                    max-width: 29em;
+                }
+
+                &-gdq-socks {
+                    @include contain.ratio(396/179);
+                    max-width: 24em;
+                }
+
+                &-gdq-lostmask {
+                    @include contain.ratio(240/93);
+                    max-width: 24em;
+                }
+
+                &-gdq-plussocks {
+                    @include contain.ratio(396/179);
+                    max-width: 24em;
+                }
+
+                &-gdq-gloves {
+                    @include contain.ratio(384/253);
+                    max-width: 23em;
+                }
+
+                &-gdq-sleeves {
+                    @include contain.ratio(424/128);
+                    max-width: 34em;
+                }
+
+                &-gdq-backpro {
+                    @include contain.ratio(608/93);
+                    max-width: 44em;
+                }
+
+                &-gdq-rapidrelief {
+                    @include contain.ratio(520/194);
+                    max-width: 32em;
+                }
+
+                &-gdq-facepro {
+                    @include contain.ratio(532/200);
+                    max-width: 39em;
+                }
+
+                &-gdq-handpro {
+                    @include contain.ratio(555/200);
+                    max-width: 34em;
+                }
+
+                &-gdq-rrknee {
+                    @include contain.ratio(514/194);
+                    max-width: 34em;
+                }
+
+                &-gdq-rrshoulder {
+                    @include contain.ratio(662/194);
+                    max-width: 34em;
+                }
+
+                &-gdq-rrankle {
+                    @include contain.ratio(552/194);
+                    max-width: 34em;
+                }
+
+                &-gdq-rrwrist {
+                    @include contain.ratio(524/194);
+                    max-width: 34em;
+                }
+            }
+        }
+    } @else {
+        @include story-card.new;
+        @include story-card.max-three;
+        @include story-card.max-four;
+        @include story-card.image-link;
+        @include story-card.buttons;
+        @include story-card.carousel;
+
+        @include button.first;
+
+        @include card.new;
+        @include card.icon-title;
+        @include card.review;
+
+        @include promo-offer.new;
+
+        #{contain.$select} {
+            &--video-gallery,
+            &--photo-gallery {
+                max-width: 90rem;
+                background: whitesmoke;
+            }
+            &--video-gallery {
+                iframe {
+                    border: none;
+                }
+            }
+            &--photo-gallery {
+                @include contain.ratio(900/607);
+            }
+        }
+
+        @include card.carousel;
+
+        @include breadcrumbs.new;
+        @include product.new;
+        @include product.addon;
+        @include product-carousel.new;
+
+        @include chart.new;
+        @include form.fieldset;
+        @include form.icon-field-combobox;
+        @include form.select;
+        @include dropdown.new;
+
+        @include icons.star;
+        @include stars.new;
+        @include icon-caption.new;
+        @include icon-caption.carousel;
+    }
+}
+
+// story page
+@mixin story($critical: false) {
+    @if $critical {
+        @include hero;
+    } @else {
+        @include photo-article.new;
+
+        @include card.new;
+        @include card.full-width-picture(queries.$hero);
+
+        @include story-article.new;
+
+        @include fwp.flip;
+
+        #{contain.$select} {
+            &--photo-sidebar {
+                @media all and (min-width: 600px) {
+                    @include contain.ratio(1000/600);
+                }
+
+                @media all and (max-width: 600px) {
+                    @include contain.ratio(600/350);
+                }
+            }
+
+            &--photo-farve {
+                @include contain.ratio(2000/740);
+
+                @media all and (max-width: 600px) {
+                    @include contain.ratio(600/350);
+                }
+            }
+
+            &--brett-farve-signature {
+                @include contain.ratio(244/150);
+                max-width: 244px;
+            }
+        }
+
+        #{section.$select} {
+            &__contain-article {
+                max-width: 102rem;
+                width: 100%;
+                margin-left: auto;
+                margin-right: auto;
+                padding: 0;
+            }
+        }
+    }
+}
+
+// benefits page
+@mixin benefits($critical: false) {
+    @if $critical {
+        @include hero;
+
+        @include card.new;
+        @include card.headline;
+
+        @include fwp.flip;
+    } @else {
+        @include story-article.new;
+
+        @include card.icon-caption;
+        @include card.excerpt;
+
+        @include dropdown.new;
+        @include card.dropdown;
+
+        @include quote.new {
+            font-size: 3.6rem;
+        }
+        @include carousel.new;
+        @include carousel.expand;
+
+        #{contain.$select} {
+            &--photo-bar-thin {
+                @include contain.ratio(2000/622);
+            }
+        }
+    }
+}
+
+// search results page
+@mixin search-results($critical: false) {
+    @if $critical {
+    } @else {
+        @include story-card.new;
+        @include story-card.max-three;
+        @include story-card.max-four;
+        @include story-card.buttons;
+        @include story-card.image-link;
+        @include story-card.carousel;
+
+        @include button.first;
+
+        @include product.new;
+
+        @include form.fieldset;
+        @include form.icon-field-combobox;
+        @include form.select;
+    }
+}
+
+// explore
+@mixin explore($critical: false) {
+    @if $critical {
+        @include hero;
+    } @else {
+        @include story-card.new;
+        @include story-card.max-four;
+        @include story-card.carousel;
+
+        @include excerpt.new;
+        @include excerpt.carousel;
+
+        @include story-article.new;
+        #{contain.$select} {
+            &--article-thumbnail {
+                @include contain.ratio(365/375);
+            }
+        }
+    }
+}
+
+// frequently asked questions
+@mixin faq($critical: false) {
+    @include card.new;
+    @include dropdown.new;
+    @include card.dropdown;
+    @include card.faq;
+}

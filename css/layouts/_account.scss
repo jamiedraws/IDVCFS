@@ -1,0 +1,156 @@
+/**
+* @prettier
+*/
+@use "../themes/fonts";
+
+@use "../layouts/group";
+
+@use "../components/copy";
+@use "../components/divider-line";
+
+$select: ".account" !default;
+$breakpoint: 70rem !default;
+$border-color: currentColor !default;
+
+@mixin new {
+	#{$select} {
+		max-width: 120rem;
+		margin-left: auto;
+		margin-right: auto;
+		font-size: 1.8rem;
+
+		&__banner {
+			font-size: 5rem;
+			font-weight: normal;
+			text-align: center;
+			text-transform: uppercase;
+			background: black;
+			color: white;
+			padding: 2rem;
+
+			@media all and (max-width: $breakpoint) {
+				font-size: 3rem;
+				font-size: clamp(3rem, 4vw, 5rem);
+			}
+		}
+
+		&__contain {
+			max-width: 110rem;
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		&__space {
+			padding: 3rem 0;
+		}
+
+		&__group {
+			display: flex;
+			flex-wrap: wrap;
+
+			@include group.gutter(1rem);
+			margin-top: 0;
+			margin-bottom: 0;
+
+			> address {
+				flex: 0 1 auto;
+			}
+		}
+
+		&__nav {
+			flex-direction: column;
+		}
+
+		&__form {
+			flex: 3 1 30rem;
+			@media all and (max-width: $breakpoint) {
+				flex: 3 1 50rem;
+			}
+		}
+
+		&__divider {
+			font-size: 1.2rem;
+
+			@media all and (min-width: $breakpoint) {
+				@include divider-line.column;
+				padding: 0 2rem;
+			}
+
+			@media all and (max-width: $breakpoint) {
+				@include divider-line.row;
+			}
+		}
+
+		&__sidebar {
+			flex: 1 1 30rem;
+			text-align: center;
+		}
+
+		&__copy {
+			@include copy.separate(2rem);
+		}
+
+		&__link {
+			display: inline-block;
+		}
+
+		&__nav > &__group {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+		}
+
+		&__header {
+			font-size: 1.8rem;
+			font-family: inherit;
+			font-weight: bold;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			border-bottom: 1px solid $border-color;
+			padding-top: 1rem;
+			padding-bottom: 1rem;
+
+			&:not(:first-child) {
+				margin-top: 5rem;
+			}
+		}
+
+		address {
+			font-style: normal;
+		}
+
+		&__button {
+			> span:last-child {
+				padding-left: 1rem;
+			}
+		}
+
+		hr {
+			border: 0;
+			height: 1px;
+			width: 100%;
+			background: $border-color;
+		}
+
+		@content;
+	}
+}
+
+@mixin checkout {
+	#{$select}--checkout {
+		#{$select} {
+			&__checkout {
+				flex: 1 1 25rem;
+
+				@media all and (max-width: $breakpoint) {
+					order: -1;
+					flex: 1 1 100%;
+				}
+			}
+
+			&__shipping {
+				flex: 1 1 100%;
+			}
+		}
+	}
+}

@@ -1,0 +1,33 @@
+$select: ".group" !default;
+
+@mixin gutter($gutter: 0.5rem) {
+	margin: -#{$gutter};
+
+	> * {
+		margin: #{$gutter};
+	}
+}
+
+@mixin item-basis($item-basis: auto) {
+	> * {
+		flex: 0 1 $item-basis;
+	}
+};
+
+@mixin container {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: flex-start;
+	// overflow: hidden;
+}
+
+@mixin new($select: $select, $item-basis: auto, $gutter: 0.5rem) {
+	#{$select} {
+		@include container;
+		@include item-basis($item-basis);
+		@include gutter($gutter);
+
+		@content;
+	}
+}

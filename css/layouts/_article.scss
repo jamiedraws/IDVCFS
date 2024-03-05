@@ -1,0 +1,153 @@
+/**
+* @prettier
+*/
+
+@use "../components/copy";
+@use "../themes/fonts";
+@use "../themes/colors";
+
+$select: ".article" !default;
+
+@mixin new {
+	#{$select} {
+		font-size: 2.8rem;
+
+		h2 {
+			font-size: 4rem;
+			text-transform: uppercase;
+			font-weight: bold;
+		}
+
+		&--contain {
+			max-width: 102rem;
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		&__copy {
+			@include copy.separate(2rem);
+		}
+
+		ol,
+		ul {
+			@include copy.separate;
+			margin-left: 2.5rem;
+		}
+
+		@content;
+	}
+}
+
+@mixin wrap-text-around-image {
+}
+
+@mixin post {
+	#{$select} {
+		&--post {
+			font-size: 2rem;
+			line-height: 1.5;
+
+			h1 {
+				font: bold 4rem/1.25 fonts.$second, sans-serif;
+				color: colors.$first;
+			}
+
+			h3:first-of-type {
+				font: bold 2.6rem/1.25 fonts.$second, sans-serif;
+				color: colors.$first;
+			}
+
+			p:first-of-type {
+				color: colors.$first;
+			}
+
+			* + img {
+				margin-bottom: 2rem;
+				max-width: 400px;
+				width: 100%;
+
+				@media all and (min-width: 750px) {
+					float: left;
+					margin-right: 4rem;
+				}
+			}
+
+			h3 + p {
+				margin-top: 0;
+			}
+
+			#{$select} {
+				&__category {
+					color: colors.$second;
+					text-transform: uppercase;
+				}
+
+				&__title {
+					text-align: center;
+				}
+
+				&__date-address {
+					display: inline-block;
+					color: colors.$second;
+					column-count: 2;
+					column-rule: 2px solid;
+
+					address {
+						font-style: normal;
+					}
+				}
+
+				&__copy {
+					&::after {
+						content: "";
+						display: block;
+						clear: both;
+					}
+
+					@supports (display: flow-root) {
+						display: flow-root;
+						&::after {
+							display: none;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+@mixin nav {
+	#{$select} {
+		&--nav {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: space-between;
+			align-items: center;
+			font-size: 1.6rem;
+			font-weight: bold;
+			text-transform: uppercase;
+			padding: 2rem 0;
+			border: solid;
+			border-width: 2px 0;
+
+			a {
+				display: flex;
+				align-items: center;
+			}
+
+			#{$select} {
+				&__prev {
+					margin-right: auto;
+				}
+
+				&__next {
+					margin-left: auto;
+					flex-direction: row-reverse;
+					svg {
+						transform: rotate(0.5turn);
+					}
+				}
+			}
+		}
+	}
+}

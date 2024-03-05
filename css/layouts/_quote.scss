@@ -1,0 +1,18 @@
+/**
+* @prettier
+*/
+
+$select: ".quote" !default;
+
+@use "../components/copy";
+
+@mixin new {
+	#{$select} {
+		text-align: center;
+		font-size: 2.4rem;
+
+		@include copy.separate;
+
+		@content;
+	}
+}

@@ -1,0 +1,23 @@
+/**
+* @prettier
+*/
+
+$select: ".breadcrumbs" !default;
+
+@mixin new {
+	#{$select} {
+		display: flex;
+		flex-wrap: wrap;
+
+		> a {
+			&:not(:last-child) {
+				&::after {
+					content: "/";
+					display: inline-block;
+					margin: 0 1rem;
+				}
+			}
+		}
+		@content;
+	}
+}

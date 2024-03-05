@@ -1,0 +1,13 @@
+$select: ".logo" !default;
+    
+@mixin new {
+    #{$select} {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        justify-content: space-around;
+        padding: 1rem;
+
+        @content;
+    }
+}

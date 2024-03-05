@@ -1,0 +1,33 @@
+$select: ".title" !default;
+
+@mixin new {
+	#{$select} {
+		text-align: center;
+		text-transform: uppercase;
+		margin: 2rem 1rem;
+
+		&__picture {
+			margin: auto;
+		}
+
+		&__text {
+			> small {
+				display: block;
+			}
+			sup {
+				font-size: 0.6em;
+			}
+		}
+
+		&__small {
+			font-size: 80%;
+		}
+
+		&__light {
+			font-weight: 400;
+			text-transform: none;
+		}
+
+		@content;
+	}
+}

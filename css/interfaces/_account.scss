@@ -1,0 +1,95 @@
+@use "../themes/colors";
+@use "../themes/fonts";
+
+@use "../interfaces/dtm";
+
+@use "../layouts/account" with (
+    $border-color: colors.$account-border
+);
+@use "../layouts/checkout" with (
+    $border-color: colors.$account-border
+);
+@use "../layouts/form" with (
+    $border-color: colors.$account-border
+);
+@use "../layouts/cart" with (
+    $border-color: colors.$account-border
+);
+
+@use "../components/burst" with (
+    $color-primary: currentColor,
+    $color-secondary: currentColor
+);
+@use "../components/divider-line";
+@use "../components/button";
+@use "../components/validate";
+@use "../components/icons";
+@use "../components/chart" with (
+    $border-color: colors.$account-border,
+    $breakpoint: 90rem
+);
+@use "../components/validation-summary-errors";
+
+@mixin new {
+    @include icons.new;
+
+    @include form.fieldset;
+    @include form.field-label(colors.$account-border);
+    @include form.checkbox;
+    @include form.select;
+    @include form.icon-field-combobox;
+    @include validate.new;
+    @include validate.is-valid-select;
+    @include validate.is-invalid-select;
+    @include validation-summary-errors.new;
+
+	@include account.new;
+    @include checkout.new;
+	@include divider-line.new {
+        color: colors.$account-border;
+    };
+    @include burst.new;
+
+    @include button.second;
+
+    @include cart.new;
+    @include chart.new;
+    @include chart.grid;
+    @include chart.order {
+        th[data-id="OrderId"] {
+            min-width: 6em;
+        }
+    }
+
+    .main {
+        min-height: 100vh;
+    }
+
+    #reviewOrder {
+        display: none;
+    }
+
+    @content;
+}
+
+@mixin checkout {
+    @include new;
+
+    @include checkout.cart;
+    @include checkout.order-item;
+    @include checkout.offer-details;
+    @include dtm.express-checkout {
+        #{account.$select} {
+            &__header + #{dtm.$select-checkout} {
+                margin-top: 1rem;
+            }
+        }
+    };
+    @include dtm.facebox;
+    @include button.express-checkout;
+    @include account.checkout;
+    @include cart.micro;
+
+    @include form.field-button-label;
+    @include form.state-tax;
+}

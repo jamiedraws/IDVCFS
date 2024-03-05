@@ -1,0 +1,3 @@
+@use "../interfaces/app";
+
+@include app.product-collection-page($critical: false);

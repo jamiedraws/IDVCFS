@@ -1,0 +1,105 @@
+.slide__into {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  margin: 0.25rem;
+  border-color: #252525;
+  contain: content;
+  scroll-behavior: smooth;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+}
+.slide__into::-webkit-scrollbar {
+  width: 0.25em;
+  height: 0.25em;
+  background: #d7d7d7;
+}
+.slide__into::-webkit-scrollbar-thumb {
+  background: black;
+}
+.slide__into > * {
+  scroll-snap-align: start;
+}
+.slide__item {
+  display: flex;
+  align-items: center;
+  flex: 1 0 100%;
+  position: relative;
+}
+.slide img {
+  display: block;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+}
+.slide .slide__video {
+  align-items: center;
+}
+.slide .slide__video img {
+  height: auto;
+  bottom: 0;
+  margin: auto;
+}
+.slide__is-hidden {
+  display: none;
+}
+.slide--vertical .slide__into {
+  flex-direction: column;
+  overscroll-behavior-y: contain;
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.slide .slide__into--no-scroll {
+  overflow: hidden;
+}
+.slide__caption {
+  position: absolute;
+  bottom: 1em;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  right: 0;
+}
+.slide__caption__text {
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  font-size: 1.1em;
+  padding: 0.25em 1em;
+  border-radius: 2em;
+  text-align: center;
+  min-width: 10em;
+  box-shadow: 0 0.1em 0.5em rgba(0, 0, 0, 0.5);
+}
+
+.fade--fade .fade__into {
+  position: relative;
+}
+.fade--fade .fade__item {
+  transition: opacity 1s ease-in-out;
+  opacity: 0;
+  -webkit-animation: toggle-visibility 1.3s step-end forwards;
+  animation: toggle-visibility 1.3s step-end forwards;
+  will-change: opacity;
+  pointer-events: none;
+}
+.fade--fade .fade__item:not(:first-child) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.fade--fade .fade__item--current {
+  z-index: 2;
+  opacity: 1;
+  pointer-events: all;
+  -webkit-animation: none;
+  animation: none;
+}
+
+/*# sourceMappingURL=slide.css.map */

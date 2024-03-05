@@ -1,0 +1,23 @@
+/**
+* @prettier
+*/
+
+$select: ".promo-offer" !default;
+
+@use "../layouts/group";
+
+@mixin new {
+	#{$select} {
+		align-items: center;
+		justify-content: center;
+
+		@include group.gutter(2rem);
+
+		picture {
+			max-width: 14rem;
+			background: transparent;
+		}
+
+		@content;
+	}
+}

@@ -1,0 +1,29 @@
+@mixin model {
+	@include layer;
+	@include stage;
+}
+
+@mixin layer {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	top: 0;
+	right: 0;
+	z-index: 10;
+}
+
+@mixin stage {
+	text-align: left;
+	background: white;
+	color: black;
+	padding: 1em;
+	box-shadow: 0 0 1.25em rgba(0, 0, 0, 0.35);
+	transform: translateY(0);
+	transition: transform 0.5s cubic-bezier(0.04, 0.64, 0.2, 1),
+		opacity 0.3s ease-in-out;
+}
+
+@mixin hidden {
+	transform: translateY(100%);
+	opacity: 0;
+}

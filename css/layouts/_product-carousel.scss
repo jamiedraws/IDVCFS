@@ -1,0 +1,73 @@
+/**
+* @prettier
+*/
+
+@use "../layouts/group";
+@use "../layouts/slide";
+@use "../../Shared/css/slide/1/components/thumbnails";
+
+$select: ".product-carousel" !default;
+$breakpoint: 1060px !default;
+
+@mixin new {
+	@include slide.overlay-nav-buttons($select);
+
+	#{$select} {
+		display: flex;
+		flex-wrap: wrap;
+
+		@include group.gutter(0.5rem);
+
+		&__into,
+		&__thumbnails {
+			margin: 0;
+		}
+
+		&__group {
+			&--nav {
+				flex: 1 1 15rem;
+
+				@media all and (max-width: $breakpoint) {
+					order: 1;
+				}
+			}
+
+			&--into {
+				flex: 1 1 84rem;
+				overflow: hidden;
+				max-width: 84rem;
+				position: relative;
+			}
+		}
+
+		&__thumbnails {
+			flex: 1;
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: flex-start;
+
+			@include group.gutter(0.5rem);
+
+			> a {
+				display: block;
+				flex: 0 1 15rem;
+
+				&::after {
+					background: transparent;
+				}
+			}
+
+			@media all and (max-width: $breakpoint) {
+				@include thumbnails.scroll;
+				margin: 0;
+
+				> a {
+					flex: 0 0 15rem;
+					flex-basis: clamp(9rem, 16vw, 15rem);
+				}
+			}
+		}
+
+		@content;
+	}
+}

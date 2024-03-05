@@ -1,0 +1,133 @@
+@use "../../Shared/css/template/dtm/components/button";
+@use "../themes/colors";
+
+$select: ".button" !default;
+
+@mixin new($color-first: black, $color-second: white) {
+	@include button.model($select);
+
+	#{$select} {
+		border: 2px solid $color-first;
+		background: $color-first;
+
+		&::before {
+			background: $color-first;
+		}
+
+		&::after {
+			background: $color-second;
+		}
+
+		&:hover,
+		&:focus,
+		&--is-selected {
+			color: $color-first;
+		}
+
+		&--is-selected {
+			&::after {
+				opacity: 1;
+			}
+		}
+
+		&--contrast {
+			background: $color-second;
+			color: $color-first;
+
+			&::before {
+				opacity: 0;
+			}
+
+			&::after {
+				opacity: 1;
+			}
+		}
+
+		@content;
+	}
+}
+
+@mixin first {
+	#{$select} {
+		&--first {
+			border-color: colors.$first;
+			background: colors.$first;
+
+			&::before {
+				background: colors.$first;
+			}
+
+			&:hover,
+			&:focus,
+			&#{$select}--is-selected {
+				color: colors.$first;
+			}
+	
+			&#{$select}--is-selected {
+				&::after {
+					opacity: 1;
+				}
+			}
+		}
+	}
+}
+
+@mixin second {
+	#{$select} {
+		&--second {
+			font-family: inherit;
+			border-width: 3px;
+	
+			background: black;
+			border-color: black;
+	
+			&::before {
+				background: black;
+			}
+	
+			&:hover,
+			&:focus {
+				color: currentColor;
+			}
+
+			&#{$select}--contrast {
+				color: black;
+				background: white;
+			}
+		}
+	}
+}
+
+@mixin express-checkout {
+	#{$select} {
+		&--express-checkout {
+			&[data-state] {
+				transition: border-color .3s ease-in-out;
+			}
+
+			&:not([data-state="card"]) {
+				padding: 2px;
+				background: transparent;
+
+				&::before {
+					background: transparent;
+				}
+
+				&:not(:hover):not(:focus) {
+					border-color: transparent;
+				}
+
+				:not(#{$select}__state),
+				> span {
+					display: none;
+				}
+			}
+
+			&[data-state="card"] {
+				> img {
+					display: none;
+				}
+			}
+		}
+	}
+}

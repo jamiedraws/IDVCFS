@@ -1,0 +1,40 @@
+$select: ".toggle-icons" !default;
+    
+@mixin new {
+    #{$select} {
+        position: relative;
+
+        &__overlay,
+        &__underlay {
+            transition: transform .3s ease-in-out;
+        }
+
+        &__underlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            transform: scale(0);
+        }
+
+        @content;
+    }
+}
+
+@mixin checkbox($checkbox: ".checkbox", $overlay: scale(0), $underlay: scale(1)) {
+    #{$checkbox} {
+        &:checked ~ #{$select} {
+            #{$select} {
+                &__overlay {
+                    transform: $overlay;
+                }
+    
+                &__underlay {
+                    transform: $underlay;
+                }
+            }
+        }
+    }
+}

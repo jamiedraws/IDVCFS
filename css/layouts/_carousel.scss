@@ -1,0 +1,99 @@
+/**
+* @prettier
+*/
+
+$select: ".carousel" !default;
+$desktop: 1000px !default;
+$breakpoint: 240px !default;
+
+@mixin new {
+	#{$select} {
+		$gap: 2rem;
+
+		margin: auto;
+		max-width: 90rem;
+		position: relative;
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+
+		&__into {
+			margin: 0 -#{$gap};
+			max-width: 76rem;
+			width: 100%;
+
+			@media all and (max-width: $breakpoint) {
+				display: block;
+			}
+
+			@media all and (min-width: $desktop) {
+				align-items: center;
+			}
+		}
+
+		&__group {
+			margin: 0;
+
+			@media all and (min-width: $breakpoint) {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: stretch;
+				flex: 1;
+			}
+		}
+
+		@media all and (max-width: $breakpoint) {
+			&__item {
+				display: block;
+			}
+		}
+
+		&__view {
+			flex: 1 1 250px;
+			margin: #{$gap};
+
+			@media all and (max-width: $breakpoint) {
+				margin: #{$gap} 0;
+			}
+		}
+
+		@media all and (max-width: $desktop) {
+			&__nav {
+				order: -1;
+				height: auto;
+				flex: 0 1 20em;
+				margin: 0;
+
+				button {
+					margin: 0.5rem;
+					padding: 0.25rem 0.5rem;
+					// 					font-size: 1em;
+					flex: 1;
+				}
+			}
+		}
+
+		@media all and (max-width: $breakpoint) {
+			& &__nav,
+			& &__thumbnails {
+				display: none;
+			}
+		}
+
+		@content;
+	}
+}
+
+@mixin expand {
+	#{$select} {
+		&--expand {
+			max-width: 120rem;
+
+			#{$select} {
+				&__into {
+					max-width: 100rem;
+				}
+			}
+		}
+	}
+}

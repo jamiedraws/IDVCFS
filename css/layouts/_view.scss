@@ -1,0 +1,25 @@
+$select: ".view" !default;
+
+@mixin new {
+	#{$select} {
+		position: relative;
+
+		&__anchor {
+			@supports (position: sticky) {
+				position: absolute;
+			}
+			top: -12.6rem;
+		}
+
+		&__scroll {
+			position: sticky;
+			top: 12.6rem;
+		}
+
+		&__in {
+			position: relative;
+		}
+
+		@content;
+	}
+}

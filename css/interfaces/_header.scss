@@ -1,0 +1,84 @@
+$breakpoint: 1000px !default;
+$breakpoint-max: 999px !default;
+
+@use "../themes/fonts";
+@use "../layouts/nav" with (
+    $background-color: white,
+    $font-color: currentColor,
+    $breakpoint: $breakpoint,
+    $breakpoint-max: $breakpoint-max
+);
+@use "../layouts/form";
+@use "../layouts/group";
+
+@use "../components/logo";
+@use "../components/toggle-icons";
+
+@mixin nav {
+	@include nav.new {
+		font: 1.2rem/1 fonts.$first, sans-serif;
+
+		@include logo.new;
+
+		&__banner {
+			flex: 1 1 100%;
+			font: 1.3rem/1 fonts.$second, sans-serif;
+			letter-spacing: 1.5px;
+		}
+
+		&__menu &__list {
+			> a {
+				display: flex;
+				align-items: center;
+			}
+		}
+
+		&__picture {
+			max-width: 50px;
+		}
+
+		&__drop__link {
+			@include group.gutter;
+			margin: 0;
+
+			> span {
+				padding: 2rem 0;
+				display: flex;
+				align-items: center;
+			}
+		}
+	}
+
+	@include nav.dropdown;
+	@include nav.bar;
+	@include nav.drawer;
+	@include nav.profile;
+	@include nav.standalone;
+	@include nav.dropdown-grid;
+	@include nav.dropdown-stack;
+
+	@include toggle-icons.new;
+	@include toggle-icons.checkbox(
+		"#{nav.$select}__toggle",
+		scale(0),
+		scale(0.75)
+	);
+
+	@content;
+}
+
+@mixin search {
+	@include form.search;
+	@include form.underline;
+	@include form.field-icon;
+
+	#{nav.$select} {
+		&__form {
+			margin: 1rem;
+			max-width: 600px;
+			flex: 1 1 100%;
+		}
+	}
+
+	@content;
+}

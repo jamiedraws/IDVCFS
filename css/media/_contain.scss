@@ -1,0 +1,20 @@
+@use "../../Shared/css/template/dtm/utils/arp";
+
+$select: ".contain" !default;
+
+@mixin new {
+	#{$select} {
+		@include arp.container;
+		@include arp.pseudo;
+
+		@content;
+	}
+}
+
+@mixin ratio($ratio: 1/1) {
+	&::before {
+		@include arp.ratio($ratio);
+	}
+
+	@content;
+}

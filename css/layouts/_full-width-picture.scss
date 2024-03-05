@@ -1,0 +1,86 @@
+$select: ".fwp" !default;
+$breakpoint: 2000px !default;
+
+@use "../layouts/section";
+@use "../layouts/position" with (
+    $select: $select,
+    $breakpoint: $breakpoint
+);
+
+@use "../components/copy";
+
+@mixin title {
+    line-height: 1;
+    text-transform: uppercase;
+    word-break: break-word;
+}
+
+@mixin new {
+    @include position.new;
+
+    #{$select} {
+        color: white;
+        background: black;
+        font-size: 1.6rem;
+
+        @media all and (max-width: 120rem) {
+            // font-size: 5vw;
+            font-size: clamp(1rem, 1vw, 1.6rem);
+        }
+
+        &__title {
+            font-size: 11em;
+            @include title;
+
+            @media all and (max-width: $breakpoint) {
+                font-size: 10vw;
+            }
+
+            // for the registered mark in the copper fit
+            sup {
+                font-size: 0.5em;
+                bottom: 0.05em;
+                margin: 0 0.2em;
+            }
+        }
+
+        &__small-title {
+            font-size: 3.75em;
+            font-weight: normal;
+            @include title;
+        }
+
+        &__stage {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            align-items: center;
+            @include section.frame;
+            text-align: right;
+        }
+
+        &__content {
+            flex: 1;
+            @include copy.separate(2rem);
+        }
+
+        &--reverse &__stage {
+            justify-content: flex-start;
+            text-align: left;
+        }
+
+        & &__button {
+            @media all and (max-width: $breakpoint) {
+                font-size: 2vw;
+            }
+        }
+
+        @content;
+    }
+}
+
+@mixin flip {
+    #{$select}--flip {
+        @include position.flip;
+    }
+}

@@ -1,0 +1,474 @@
+@use "../components/copy";
+@use "../layouts/group";
+
+@use "../themes/colors";
+@use "../themes/fonts";
+
+@use "../../Shared/css/template/dtm/components/expando";
+
+$select: ".card" !default;
+$breakpoint: 1000px !default;
+
+@mixin new {
+    #{$select} {
+        &__group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        &__item {
+            background: #f5f5f5;
+            padding: 2rem;
+        }
+
+        &__item,
+        &__copy {
+            @include copy.separate;
+        }
+
+        @content;
+    }
+}
+
+@mixin review {
+    #{$select} {
+        &--review {
+            font-size: 1.8rem;
+            font-weight: bold;
+
+            picture {
+                max-width: 9rem;
+            }
+
+            #{$select} {
+                &__group {
+                    @include group.gutter(1rem);
+                }
+
+                &__item {
+                    flex: 1 1 60rem;
+                    padding: 3rem;
+                }
+
+                &__meta {
+                    display: flex;
+                    flex-wrap: wrap;
+
+                    @include group.gutter(0.5rem);
+
+                    &:not(:first-child) {
+                        margin-top: 1rem;
+                    }
+
+                    &:not(:last-child) {
+                        margin-bottom: 1rem;
+                    }
+                }
+
+                &__date {
+                    margin-left: auto;
+                }
+
+                &__break {
+                    flex: 1 1 100%;
+                }
+
+                &__title {
+                    font-size: 2rem;
+                    font-weight: bold;
+                    text-transform: uppercase;
+
+                    > span {
+                        color: colors.$second;
+                        font-size: 1.6rem;
+                    }
+                }
+
+                &__badge {
+                    width: 1.7rem;
+                    height: 1.7rem;
+                    fill: colors.$second;
+                    stroke: white;
+                    align-self: flex-end;
+                }
+            }
+        }
+    }
+}
+
+@mixin carousel {
+    #{$select} {
+        &--carousel {
+            margin: auto;
+            max-width: 135rem;
+
+            #{$select} {
+                &__into {
+                    @include group.gutter(1rem);
+                }
+            }
+        }
+    }
+}
+
+@mixin full-width-picture($breakpoint: $breakpoint) {
+    #{$select} {
+        &--full-width-picture {
+            @media all and (min-width: $breakpoint) {
+                flex: 0 1 51rem;
+            }
+
+            #{$select} {
+                &__item {
+                    font-size: 2rem;
+                    background: white;
+                    color: colors.$first;
+                    text-align: left;
+                    padding: 3rem;
+
+                    ::selection {
+                        background: colors.$dark;
+                        color: colors.$light;
+                    }
+                }
+            }
+
+            @content;
+        }
+    }
+}
+
+@mixin icon-title {
+    #{$select} {
+        &--icon-title {
+            text-align: center;
+            max-width: 148rem;
+            margin-left: auto;
+            margin-right: auto;
+
+            picture {
+                max-width: 12rem;
+                margin: auto;
+            }
+
+            #{$select} {
+                &__group {
+                    @include group.gutter(1rem);
+                }
+
+                &__item {
+                    flex: 1 1 44rem;
+                }
+
+                &__title {
+                    font-size: 2rem;
+                    font-weight: bold;
+
+                    > span {
+                        display: block;
+                        font-weight: lighter;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@mixin icon-caption {
+    #{$select} {
+        &--icon-caption {
+            font-size: 1.8rem;
+
+            picture {
+                max-width: 9rem;
+                align-self: flex-start;
+            }
+
+            figcaption {
+                flex: 1 1 20rem;
+            }
+
+            #{$select} {
+                &__group {
+                    @include group.gutter(1rem);
+                }
+
+                &__item {
+                    flex: 1 1 44rem;
+                    padding: 3rem;
+                }
+
+                &__title {
+                    font-size: 2rem;
+                    font-weight: bold;
+                    text-transform: uppercase;
+
+                    > span {
+                        color: colors.$second;
+                        font-size: 1.6rem;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@mixin excerpt {
+    #{$select} {
+        &--excerpt {
+            font-size: 1.8rem;
+
+            a {
+                color: colors.$second;
+                text-decoration: none;
+
+                display: flex;
+                align-items: center;
+
+                &::after {
+                    content: "»";
+                    padding-left: 0.5rem;
+                }
+            }
+
+            p > a {
+                margin-top: 1rem;
+            }
+
+            #{$select} {
+                &__group {
+                    @include group.gutter(1rem);
+                }
+
+                &__item {
+                    flex: 1 1 44rem;
+                    padding: 3rem;
+                }
+
+                &__source {
+                    display: block;
+                    font-weight: bold;
+                }
+
+                &__title {
+                    font-size: 2.8rem;
+                    margin-bottom: 2rem;
+                    display: block;
+                }
+            }
+        }
+    }
+}
+
+@mixin quote($breakpoint: $breakpoint) {
+    #{$select} {
+        &--headline {
+            position: relative;
+            flex-basis: 80rem;
+
+            blockquote {
+                @include copy.separate(3rem);
+            }
+
+            #{$select} {
+                &__item {
+                    display: block;
+                }
+
+                &__author {
+                    font: 2em fonts.$first, sans-serif;
+
+                    &::before {
+                        content: "";
+                        display: block;
+                        width: 100%;
+                        height: 2px;
+                        background: currentColor;
+                        margin-bottom: 1rem;
+                        transform-origin: right;
+                    }
+
+                    > small {
+                        font-size: 0.5em;
+                        text-transform: uppercase;
+                    }
+                }
+
+                &__button {
+                    font-size: 1.25em;
+                }
+            }
+
+            @content;
+        }
+    }
+
+    @media all and (min-width: $breakpoint) {
+        #{$select} {
+            &--headline {
+                #{$select} {
+                    &__item {
+                        padding: 5rem;
+                        padding-right: 10rem;
+                    }
+
+                    &__author {
+                        padding: 0 3rem;
+                        position: absolute;
+                        left: 0;
+                        bottom: 0;
+                        transform: translateX(-100%);
+                        text-align: right;
+                        color: white;
+
+                        &::before {
+                            transform: scaleX(0.7);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    @media all and (max-width: $breakpoint) {
+        #{$select} {
+            &--headline {
+                #{$select} {
+                }
+            }
+        }
+    }
+}
+
+@mixin headline($breakpoint: $breakpoint) {
+    #{$select} {
+        &--headline {
+            flex: 0 1 64rem;
+
+            ::selection {
+                background: colors.$light;
+                color: colors.$dark;
+            }
+
+            #{$select} {
+                &__item {
+                    background: black;
+                    color: white;
+                    font-size: 1.8em;
+                    line-height: 1.5;
+
+                    @include copy.separate(2rem);
+                }
+            }
+
+            h1 {
+                font-weight: normal;
+            }
+
+            h2 {
+                font-weight: normal;
+                text-transform: uppercase;
+
+                small {
+                    font: bold 0.7em fonts.$second, sans-serif;
+                    display: block;
+                    text-transform: capitalize;
+                }
+            }
+        }
+    }
+
+    @media all and (min-width: $breakpoint) {
+        #{$select} {
+            &--headline {
+                #{$select} {
+                    &__item {
+                        padding: 2rem;
+                    }
+                }
+            }
+        }
+    }
+
+    @media all and (max-width: $breakpoint) {
+        #{$select} {
+            &--headline {
+                #{$select} {
+                    &__item {
+                        padding: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@mixin dropdown {
+    #{$select} {
+        &--dropdown {
+            font-size: 2.2rem;
+            line-height: 1.5;
+
+            #{$select} {
+                &__group {
+                    @include group.gutter(1rem);
+                }
+
+                &__title {
+                    font: bold 2.4rem fonts.$first, sans-serif;
+                    text-transform: uppercase;
+                    padding: 3rem 2rem;
+                }
+
+                &__icon {
+                    flex-basis: 3.5rem;
+                }
+
+                &__item {
+                    display: flex;
+                    flex-direction: column;
+                    flex: 1 1 50rem;
+                    padding: 0;
+
+                    > * {
+                        flex: 0 1 auto;
+                    }
+                }
+
+                &__content {
+                    margin: 0;
+                }
+
+                &__copy {
+                    padding: 0 2rem 2rem;
+                    @include copy.separate;
+
+                    small {
+                        display: block;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@mixin faq {
+    #{$select} {
+        &--faq {
+            #{$select} {
+                &__item {
+                    flex: 1 1 100%;
+                }
+
+                &__title {
+                    text-align: left;
+                }
+
+                &__copy {
+                    @include copy.separate(2rem);
+                }
+            }
+        }
+    }
+}

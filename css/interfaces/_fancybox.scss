@@ -1,0 +1,41 @@
+$select: ".fancybox";
+
+@use "../components/copy";
+
+@mixin content {
+    #{$select} {
+        &-content {
+            @content;
+        }
+    }
+}
+
+@mixin transparent {
+    #{$select} {
+        &-slide {
+            &--is-transparent {
+                @include content {
+                    background: transparent;
+                }
+            }
+        }
+    }
+}
+
+@mixin page {
+    @include content {
+        max-width: 100rem;
+        line-height: 1.45;
+
+        @include copy.separate(2rem);
+
+        &#content {
+            width: auto;
+            padding: 3rem;
+
+            p {
+                margin: 2rem 0 0;
+            }
+        }
+    }
+}

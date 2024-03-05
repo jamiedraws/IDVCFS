@@ -1,0 +1,35 @@
+$select: ".header" !default;
+$breakpoint: 1000px !default;
+
+@mixin new {
+	#{$select} {
+		font-size: 1rem;
+
+		&__in {
+			padding-top: 2rem;
+			padding-bottom: 2rem;
+		}
+
+		&__group {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+
+		&__center {
+			justify-content: center;
+		}
+
+		&__logo {
+			display: flex;
+			align-items: center;
+			flex: 1 0 auto;
+		}
+
+		@media all and (max-width: $breakpoint) {
+			display: none;
+		}
+
+		@content;
+	}
+}

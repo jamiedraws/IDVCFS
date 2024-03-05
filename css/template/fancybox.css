@@ -1,0 +1,20 @@
+.fancybox-content {
+  max-width: 100rem;
+  line-height: 1.45;
+}
+.fancybox-content > * + * {
+  margin-top: 2rem;
+}
+.fancybox-content#content {
+  width: auto;
+  padding: 3rem;
+}
+.fancybox-content#content p {
+  margin: 2rem 0 0;
+}
+
+.fancybox-slide--is-transparent .fancybox-content {
+  background: transparent;
+}
+
+/*# sourceMappingURL=fancybox.css.map */

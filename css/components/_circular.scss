@@ -1,0 +1,35 @@
+$select: ".circular" !default;
+    
+@mixin new {
+    #{$select} {
+        position: relative;
+        cursor: pointer;
+
+        &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            width: 2em;
+            height: 2em;
+            background: whitesmoke;
+            border-radius: 100%;
+            transition: transform .3s ease-in-out, opacity .3s ease-in-out;
+            transform: scale(1);
+            opacity: 0;
+        }
+
+        &:hover,
+        &:focus {
+            &::before {
+                transform: scale(2);
+                opacity: 1;
+            }
+        }
+
+        @content;
+    }
+}

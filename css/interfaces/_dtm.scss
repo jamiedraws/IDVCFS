@@ -1,0 +1,191 @@
+@use "../../Shared/css/template/dtm/utils/scope";
+@use "../../Shared/css/template/dtm/components/button";
+@use "../layouts/document";
+@use "../layouts/queries";
+@use "../layouts/group";
+
+$select-dtm: ".dtm";
+$select-checkout: ".checkout-option";
+
+@mixin new {
+	@include scope.for-template {
+		background: none;
+		@include layout;
+		@include confirmation-table();
+		@include set-font-size();
+		@include facebox;
+	}
+
+	.dtm {
+		@include document.set-document-size();
+	}
+}
+
+@mixin layout {
+	.l-outer {
+		max-width: 1200px;
+		margin: auto;
+
+		&__in {
+			box-shadow: none;
+			border: 0;
+		}
+	}
+}
+
+@mixin set-font-size {
+	[class*="c-brand"] {
+		&,
+		p {
+			font-size: 16px;
+		}
+
+		[class*="button"],
+		[class*="o-box--btn"] {
+			font-size: 14px;
+		}
+	}
+}
+
+@mixin confirmation-table {
+	.c-brand .c-list--horz {
+		display: flex;
+		flex-wrap: wrap;
+
+		> li {
+			display: block;
+			flex: 1 1 30rem;
+		}
+	}
+}
+
+@mixin cc {
+}
+
+@mixin express-checkout {
+	@include scope.for-template {
+		#{$select-checkout} {
+			display: flex;
+			align-items: center;
+			flex-wrap: nowrap;
+			padding: 2rem 0.5rem;
+			@include group.gutter;
+
+			label {
+				display: inline-flex;
+				flex-wrap: wrap;
+				justify-content: flex-start;
+				align-items: center;
+				@include group.gutter;
+				min-width: 0;
+				flex: 1 1 auto;
+			}
+
+			img {
+				min-width: 0;
+				flex: 0 0 10rem;
+				max-width: 10rem;
+			}
+		}
+
+		.ccImage {
+			img {
+				flex: 0 0 5rem;
+				max-width: 5rem;
+			}
+		}
+	}
+
+	#dtm {
+		#{$select-checkout} {
+			&__img {
+				margin: 0;
+			}
+
+			img {
+				width: auto;
+				height: auto;
+				border: 1px solid #ccc;
+			}
+		}
+	}
+
+	@content;
+}
+
+@mixin process-payment {
+	#{$select-dtm} {
+		&--processpayment {
+			form {
+				display: flex;
+				flex-wrap: wrap;
+
+				> * {
+					flex: 1 1 500px;
+				}
+
+				#continueButton {
+					margin: 0;
+				}
+			}
+		}
+	}
+
+	@include scope.for-template(".dtm__in", "#dtm_processPayment") {
+		#dtm_form {
+			form {
+				@include group.gutter(1rem);
+			}
+
+			.vse {
+				width: 100%;
+				margin-bottom: 2rem;
+				text-align: left;
+
+				ul {
+					margin-left: 15px;
+				}
+			}
+
+			.fldCt {
+				margin-bottom: 5px;
+			}
+
+			#dtm_paymentForm {
+				margin: 0;
+			}
+		}
+	}
+}
+
+@mixin facebox {
+	#facebox {
+		.fieldTxt {
+			margin-top: 1rem;
+		}
+
+		input {
+			background: white;
+			border: 1px solid;
+			padding: 1rem;
+
+			&[type="text"] {
+				margin-bottom: 1rem;
+			}
+
+			&[type="button"] {
+				border: 3px solid black;
+				background: black;
+				color: white;
+				cursor: pointer;
+				transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+
+				&:focus,
+				&:hover {
+					color: black;
+					background: white;
+				}
+			}
+		}
+	}
+}

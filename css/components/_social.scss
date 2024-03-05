@@ -1,0 +1,49 @@
+$select: ".social" !default;
+
+@mixin img {
+    #{$select} {
+        // hex to filter color generated from
+        // https://codepen.io/sosuke/pen/Pjoqqp
+
+        &--facebook:hover {
+            filter: brightness(0) saturate(100%) invert(29%) sepia(82%) saturate(456%) hue-rotate(181deg) brightness(94%) contrast(87%);
+        }
+
+        &--twitter:hover {
+            filter: brightness(0) saturate(100%) invert(48%) sepia(90%) saturate(1598%) hue-rotate(162deg) brightness(95%) contrast(103%);
+        }
+
+        &--pinterest:hover {
+            filter: brightness(20%) saturate(100%) invert(18%) sepia(31%) saturate(7481%) hue-rotate(344deg) brightness(97%) contrast(92%);
+        }
+
+        &--instagram:hover {
+            filter: brightness(0) saturate(100%) invert(24%) sepia(96%) saturate(1527%) hue-rotate(275deg) brightness(96%) contrast(95%);
+        }
+
+        @content;
+    }
+}
+
+@mixin font {
+    #{$select} {
+
+        &--facebook:hover {
+            color: #3b5998;
+        }
+
+        &--twitter:hover {
+            color: #3b5998;
+        }
+
+        &--pinterest:hover {
+            color: #3b5998;
+        }
+
+        &--instagram:hover {
+            color: #3b5998;
+        }
+
+        @content;
+    }
+}

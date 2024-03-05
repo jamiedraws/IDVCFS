@@ -1,0 +1,96 @@
+/**
+* @prettier
+*/
+@use "../layouts/group";
+@use "../components/copy";
+@use "../themes/colors";
+@use "../themes/fonts";
+
+$select: ".product" !default;
+
+@mixin new {
+	#{$select} {
+		font: 2rem fonts.$second, sans-serif;
+
+		&__group {
+			display: flex;
+			justify-content: flex-start;
+			@include group.gutter(2rem);
+		}
+
+		&__carousel {
+			flex: 0 1 101rem;
+		}
+
+		&__form {
+			flex: 1 1 50rem;
+		}
+
+		&__copy {
+			@include copy.separate;
+		}
+
+		h2 {
+			font-size: 3.4rem;
+			font-weight: normal;
+		}
+
+		&__price {
+			font-size: 2.8rem;
+			font-family: fonts.$first, sans-serif;
+			color: colors.$second;
+			display: block;
+		}
+
+		&__bold {
+			font-size: 1.6rem;
+			font-weight: bold;
+			text-transform: uppercase;
+		}
+
+		&__contain {
+			max-width: 60rem;
+		}
+
+		&__disclaimer {
+			margin-top: 2rem;
+		}
+
+		&__tables {
+			display: flex;
+			flex-wrap: wrap;
+			@include group.gutter(1rem);
+		}
+
+		input,
+		select {
+			font-weight: bold;
+			text-transform: uppercase;
+		}
+
+		@content;
+	}
+}
+
+@mixin addon {
+	#{$select}__addon {
+		display: flex;
+		flex-direction: row-reverse;
+		align-items: center;
+		flex-wrap: wrap;
+
+		> * {
+			flex: 1;
+		}
+
+		picture {
+			flex: 0 1 12em;
+		}
+
+		.button {
+			margin: 1em 0;
+		}
+
+		@content;
+	}
+}

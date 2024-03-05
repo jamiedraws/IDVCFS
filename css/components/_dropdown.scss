@@ -1,0 +1,80 @@
+/**
+* @prettier
+*/
+
+@use "../../Shared/css/template/dtm/components/expando";
+@use "../components/list";
+
+$select: ".dropdown" !default;
+$border-color: currentColor !default;
+
+@mixin new {
+	@include expando.new;
+
+	#{$select} {
+		margin-left: 0;
+
+		&__item {
+			border: solid $border-color;
+			border-width: 1px 0 0;
+
+			&:last-child {
+				border-width: 1px 0;
+			}
+		}
+
+		&__title {
+			display: flex;
+			align-items: center;
+		}
+
+		&__icon {
+			margin-left: auto;
+			font-size: 2em;
+			flex: 0 0 auto;
+
+			&::before,
+			&::after {
+				background: currentColor;
+			}
+		}
+
+		&__button {
+			padding: 2rem 0;
+			font: inherit;
+		}
+
+		&__copy {
+			padding-bottom: 2rem;
+
+			ul {
+				margin-left: 2.5rem;
+				@include list.layout;
+				@include list.bullet;
+			}
+		}
+
+		@content;
+	}
+}
+
+// just a modifier to get the dropdown to work within a simple list
+@mixin list {
+	#{$select} {
+		&__item--list {
+			border: none;
+			position: relative;
+			#{$select}__button {
+				padding: 0.25em 0 0;
+				text-decoration: underline;
+			}
+			#{$select}__icon {
+				margin: 0;
+				position: absolute;
+				left: -0.63em;
+			}
+		}
+
+		@content;
+	}
+}

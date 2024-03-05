@@ -1,0 +1,8 @@
+@use "../layouts/article";
+@use "../components/icons";
+
+@mixin post {
+    @include article.post;
+    @include article.nav;
+    @include icons.new;
+}

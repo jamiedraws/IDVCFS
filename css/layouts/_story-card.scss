@@ -1,0 +1,184 @@
+@use "../layouts/group";
+@use "../layouts/slide";
+@use "../components/copy";
+@use "../themes/fonts";
+@use "../themes/colors";
+
+$select: ".story-card" !default;
+$item-basis: 42rem !default;
+$picture-width: 30rem !default;
+$group-carousel: 600px !default;
+
+@mixin new(
+    $select: $select,
+    $item-basis: $item-basis,
+    $picture-width: $picture-width
+) {
+    @include group.new("#{$select}__group", $item-basis);
+
+    #{$select} {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        text-align: center;
+        font-family: fonts.$first, sans-serif;
+        font-weight: bold;
+        font-size: 1.9rem;
+
+        &__group {
+            flex: 1 1 100%;
+            align-items: stretch;
+        }
+
+        &__fill {
+            width: 100%;
+        }
+
+        picture {
+            max-width: $picture-width;
+            margin: auto;
+        }
+
+        figure {
+            @include copy.separate;
+            display: flex;
+            flex-direction: column;
+
+            > * {
+                flex: 0 1 auto;
+            }
+        }
+
+        figcaption {
+            flex: 1 1 auto;
+            width: 100%;
+        }
+
+        @content;
+    }
+}
+
+@mixin max-four {
+    #{$select} {
+        &--max-four > &__group {
+            max-width: 180rem;
+            @include group.gutter(1rem);
+        }
+
+        &--max-four {
+            #{$select} {
+                &__caption {
+                    font-size: 2.6rem;
+                }
+
+                &__price {
+                    color: colors.$second;
+                }
+            }
+            @content;
+        }
+    }
+}
+
+@mixin max-three {
+    #{$select} {
+        &--max-three > &__group {
+            max-width: 140rem;
+            @include group.gutter(2rem);
+        }
+
+        &--max-three {
+            font-size: 2.8rem;
+            text-transform: uppercase;
+
+            @content;
+        }
+    }
+}
+
+@mixin buttons {
+    #{$select} {
+        nav {
+            margin-top: 2rem;
+        }
+
+        &__buttons {
+            display: flex;
+            flex-wrap: wrap;
+
+            @include group.gutter(1rem);
+
+            > a {
+                flex: 1 1 10rem;
+            }
+        }
+    }
+}
+
+@mixin image-link {
+    #{$select} {
+        &__image-link {
+            position: relative;
+            border: 3px solid transparent;
+            transition: border-color 0.3s ease-in-out;
+
+            &:hover,
+            &:focus {
+                border-color: currentColor;
+            }
+        }
+    }
+}
+
+@mixin image-button {
+    #{$select} {
+        &__image-link > &__image-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+    }
+}
+
+@mixin carousel($breakpoint: $group-carousel) {
+    @media all and (min-width: $breakpoint) {
+        #{$select} {
+            &--carousel {
+                #{$select} {
+                    &__group {
+                        @include group.item-basis($item-basis);
+                    }
+                }
+
+                @include slide.take-out-thumbnails($select);
+                @include slide.take-out-nav($select);
+            }
+        }
+    }
+
+    @media all and (max-width: $breakpoint) {
+        #{$select} {
+            &--carousel {
+                @include slide.convert-to-carousel($select);
+
+                &#{$select}--max-four {
+                    #{$select} {
+                        &__nav {
+                            top: 41vw;
+                            bottom: auto;
+                            margin: 0;
+                        }
+                    }
+                }
+
+                &#{$select}--videos {
+                    #{$select} {
+                        &__nav {
+                            position: relative;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

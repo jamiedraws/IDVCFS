@@ -1,0 +1,140 @@
+/**
+* @prettier
+*/
+
+$select: ".message" !default;
+$color-valid: green !default;
+$color-invalid: #c00 !default;
+
+@mixin new {
+	#{$select} {
+		&__group {
+			#{$select} {
+				&__valid,
+				&__invalid {
+					display: none;
+					font-size: 1.5rem;
+
+					&::before {
+						content: "/";
+						margin-right: 0.5rem;
+					}
+				}
+			}
+		}
+
+		[data-required]:not(:placeholder-shown) {
+			&:valid {
+				@include is-valid();
+			}
+
+			&:invalid {
+				@include is-invalid();
+			}
+		}
+
+		&__is-valid {
+			@include is-valid();
+		}
+
+		&__is-invalid {
+			& {
+				@include is-invalid();
+			}
+
+			&[data-required]:not(:placeholder-shown):valid {
+				@include is-invalid();
+			}
+		}
+
+		@content;
+	}
+}
+
+@mixin is-valid {
+	outline-color: $color-valid;
+	border-color: $color-valid;
+
+	& ~ #{$select}__group {
+		color: $color-valid;
+
+		#{$select} {
+			&__valid {
+				display: inline-block;
+			}
+
+			&__invalid {
+				display: none;
+			}
+		}
+	}
+}
+
+@mixin is-invalid {
+	outline-color: $color-invalid;
+	border-color: $color-invalid;
+
+	& ~ #{$select}__group {
+		color: $color-invalid;
+
+		#{$select} {
+			&__invalid {
+				display: inline-block;
+			}
+
+			&__valid {
+				display: none;
+			}
+		}
+	}
+}
+
+@mixin is-valid-select {
+	#{$select} {
+		&__is-valid-select {
+			outline-color: $color-valid;
+			border-color: $color-valid;
+
+			> #{$select} {
+				&__group {
+					color: $color-valid;
+
+					#{$select} {
+						&__valid {
+							display: inline-block;
+						}
+
+						&__invalid {
+							display: none;
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+@mixin is-invalid-select {
+	#{$select} {
+		&__is-invalid-select {
+			outline-color: $color-invalid;
+			border-color: $color-invalid;
+
+			> #{$select} {
+				&__group {
+					color: $color-invalid;
+
+					#{$select} {
+						&__invalid {
+							display: inline-block;
+						}
+
+						&__valid {
+							display: none;
+						}
+					}
+				}
+			}
+		}
+	}
+}

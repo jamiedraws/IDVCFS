@@ -1,0 +1,14 @@
+$select: ".banner" !default;
+    
+@mixin new {
+    #{$select} {
+        padding: 1rem;
+
+        background: black;
+        color: white;
+        text-align: center;
+        text-transform: uppercase;
+
+        @content;
+    }
+}

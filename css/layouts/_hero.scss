@@ -1,0 +1,66 @@
+/**
+* @prettier
+*/
+
+$select: ".hero" !default;
+$breakpoint: 1200px !default;
+
+@keyframes reveal-divider {
+	to {
+		transform: scaleX(0.7);
+	}
+}
+
+@keyframes reveal-content {
+	to {
+		opacity: 1;
+	}
+}
+
+@mixin new {
+	#{$select} {
+		&__bg {
+			img {
+				transition-delay: 0.5s;
+			}
+		}
+
+		&__content {
+			flex: 0 1 100rem;
+
+			picture {
+				margin-left: auto;
+			}
+		}
+
+		hr {
+			margin: 3rem 0;
+			transform: scaleX(0.5);
+			will-change: transform;
+			transform-origin: right center;
+			animation: reveal-divider 1s ease-in-out forwards;
+		}
+
+		h1 {
+			line-height: 1.25;
+			font-weight: normal;
+
+			> small {
+				display: block;
+				font-size: 70%;
+			}
+		}
+
+		&__reveal-content {
+			opacity: 0;
+			will-change: opacity;
+			animation: reveal-content 1s ease-out forwards;
+		}
+
+		@media all and (max-width: $breakpoint) {
+			display: none;
+		}
+
+		@content;
+	}
+}

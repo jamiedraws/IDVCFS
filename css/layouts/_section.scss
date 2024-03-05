@@ -1,0 +1,38 @@
+$select: ".section" !default;
+$container: 1000px !default;
+
+@mixin new {
+	#{$select} {
+		margin: 0;
+
+		&__contain {
+			@include contain;
+		}
+
+		&__in {
+			@include contain;
+			@include frame;
+		}
+
+		&__block {
+			@include block;
+		}
+
+		@content;
+	}
+}
+
+@mixin frame {
+	padding: 2rem;
+}
+
+@mixin contain {
+	max-width: $container;
+	margin: auto;
+	box-sizing: content-box;
+}
+
+@mixin block($space: 3rem) {
+	margin-top: $space;
+	margin-bottom: $space;
+}

@@ -1,0 +1,5 @@
+@use "../../Shared/css/slide/1/layouts/slide";
+@use "../../Shared/css/slide/1/utilities/ui";
+
+@include slide.new;
+@include ui.fade(".fade");

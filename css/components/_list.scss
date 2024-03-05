@@ -1,0 +1,151 @@
+@use "../layouts/queries";
+
+$select: ".list" !default;
+
+@mixin new {
+	#{$select} {
+		@include layout;
+		@content;
+	}
+}
+
+@mixin layout {
+	list-style: none;
+
+	> li {
+		display: list-item;
+		break-inside: avoid;
+
+		&:not(:last-child) {
+			margin-bottom: 1rem;
+		}
+	}
+}
+
+@mixin bullet($bullet: "•") {
+	> li {
+		&::before {
+			display: inline-block;
+			content: $bullet;
+			margin-left: -1em;
+			width: 1em;
+
+			@content;
+		}
+	}
+}
+
+@mixin grid($width: 20em, $gap: 2em) {
+	#{$select} {
+		&--grid {
+			column-width: $width;
+			column-rule: 1px solid;
+			list-style: none;
+			margin: 0 -#{$gap};
+			overflow: hidden;
+
+			> li {
+				break-inside: avoid;
+				margin: 0 #{$gap};
+			}
+
+			@content;
+		}
+	}
+}
+
+@mixin block {
+	#{$select} {
+		&--block {
+			list-style: none;
+			font-size: 16px;
+			margin-left: 0;
+
+			> li {
+				&::before {
+					display: none;
+				}
+
+				&:not(:last-child) {
+					margin-bottom: 1.5rem;
+				}
+			}
+
+			@content;
+		}
+	}
+}
+
+@mixin color($color: currentColor) {
+	> li {
+		&::before {
+			color: $color;
+		}
+	}
+}
+
+@mixin square {
+	#{$select} {
+		&--square {
+			@include bullet("■") {
+				margin-left: -1.5em;
+				width: 1.5em;
+			}
+
+			@content;
+		}
+	}
+}
+
+@mixin disc {
+	#{$select} {
+		&--disc {
+			@include bullet;
+
+			@content;
+		}
+	}
+}
+
+@mixin links {
+	#{$select} {
+		margin: 1.5rem auto;
+		list-style: none;
+		text-align: center;
+
+		> li {
+			a {
+				padding: 0.25em;
+				display: block;
+			}
+			::before {
+				display: none;
+			}
+		}
+
+		@media all and (min-width: queries.$lg) {
+			> li {
+				display: inline-block;
+				margin: 0.5em 0;
+				border-right: 1px solid;
+				a {
+					padding: 0em 0.5em;
+				}
+			}
+		}
+
+		@media all and (max-width: queries.$lg) {
+			text-align: left;
+			column-width: 20em;
+			column-rule: 1px solid;
+		}
+
+		> li {
+			&:last-child {
+				border: none;
+			}
+		}
+
+		@content;
+	}
+}

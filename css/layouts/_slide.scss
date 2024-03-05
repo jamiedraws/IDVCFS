@@ -1,0 +1,245 @@
+@use "../../Shared/css/slide/1/layouts/slide";
+@use "../../Shared/css/slide/1/utilities/ui";
+@use "../../Shared/css/slide/1/components/thumbnails";
+@use "../themes/colors";
+
+$select: ".slide" !default;
+$desktop: 1000px !default;
+
+@mixin new {
+	@include slide.new;
+
+	#{$select} {
+		position: relative;
+		&__into {
+			z-index: 1;
+			&::-webkit-scrollbar {
+				height: 0.5em;
+				background: rgba(0, 0, 0, 0.2);
+			}
+
+			&::-webkit-scrollbar-thumb {
+				background: rgba(0, 0, 0, 0.5);
+			}
+
+			-ms-overflow-style: -ms-autohiding-scrollbar;
+		}
+
+		&--no-scrollbar &__into {
+			&::-webkit-scrollbar {
+				display: none;
+			}
+
+			scrollbar-width: none;
+		}
+
+		&__item {
+			&,
+			img {
+				margin: 0;
+			}
+		}
+
+		&__next {
+			transform: rotate(0.5turn);
+		}
+
+		&__nav {
+			left: 0;
+			right: 0;
+			z-index: 1;
+			bottom: 0;
+			top: 0;
+			margin: auto;
+			height: 9rem;
+			display: flex;
+			justify-content: space-between;
+			pointer-events: none;
+
+			button {
+				opacity: 0;
+				color: currentColor;
+				padding: 0.05em;
+				font-size: 5rem;
+				position: relative;
+				z-index: 2;
+				margin: 0;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				transition: background 100ms linear, color 100ms linear,
+					opacity 250ms ease-in-out 1s;
+
+				&:hover,
+				&:focus {
+					background: colors.$second;
+					border-color: white;
+					color: white;
+				}
+
+				&:focus {
+					outline-color: colors.$first;
+				}
+			}
+
+			@media all and (min-width: $desktop) {
+				position: absolute;
+			}
+
+			&--extend {
+				@media all and (min-width: $desktop) {
+					#{$select} {
+						&__prev {
+							left: -2em;
+						}
+
+						&__next {
+							right: -2em;
+						}
+					}
+				}
+			}
+		}
+
+		@media all and (max-width: $desktop) {
+			&__nav + &__thumbnails {
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+			}
+		}
+
+		&__thumbnails {
+			display: flex;
+			flex-wrap: wrap;
+			flex: 1;
+			justify-content: center;
+			margin: 0.5em;
+		}
+
+		&__thumbnail {
+			position: relative;
+
+			&:focus {
+				outline-color: colors.$first;
+			}
+
+			&::before,
+			&::after {
+				content: "";
+				position: absolute;
+				top: 0;
+				bottom: 0;
+				left: 0;
+				right: 0;
+			}
+
+			&::before {
+				background: whitesmoke;
+				opacity: 1;
+			}
+
+			&::after {
+				z-index: 1;
+				background: rgba(0, 0, 0, 0.5);
+				transition: opacity 0.3s ease-in-out;
+				opacity: 0;
+			}
+
+			&--is-selected {
+				&::after {
+					opacity: 1;
+				}
+			}
+		}
+
+		&__dot {
+			width: 0.5em;
+			height: 0.5em;
+			margin: 0.5em;
+			font-size: 4rem;
+			border-radius: 0.5em;
+			border: 1px solid gray;
+			overflow: hidden;
+			flex: 0 0 0.5em;
+			transition: transform 0.3s ease-in-out;
+			-webkit-transform: translate3d(0, 0, 0);
+			-webkit-mask-image: -webkit-radial-gradient(white, black);
+
+			&:focus {
+				-webkit-mask-image: none;
+			}
+		}
+
+		&--is-ready {
+			#{$select}__nav {
+				button {
+					opacity: 1;
+					pointer-events: all;
+				}
+			}
+		}
+
+		@content;
+	}
+}
+
+@mixin take-out-thumbnails($select: $select) {
+	#{$select} {
+		&__thumbnails {
+			display: none;
+		}
+	}
+}
+
+@mixin take-out-nav($select: $select) {
+	#{$select} {
+		&__nav {
+			display: none;
+		}
+	}
+}
+
+@mixin fade($select: $select) {
+	@include ui.fade($select);
+	@content;
+}
+
+@mixin overlay-nav-buttons($select: $select) {
+	#{$select} {
+		&__nav {
+			position: absolute;
+			z-index: 2;
+
+			@content;
+		}
+	}
+}
+
+@mixin convert-to-carousel($select: $select) {
+	@include overlay-nav-buttons($select);
+
+	#{$select} {
+		&__group {
+			justify-content: flex-start;
+		}
+
+		&__into {
+			flex-wrap: nowrap;
+			max-width: 100%;
+			margin: 0;
+		}
+
+		&__item {
+			flex: 1 0 100%;
+		}
+
+		&__thumbnails {
+			display: none;
+		}
+
+		@content;
+	}
+}

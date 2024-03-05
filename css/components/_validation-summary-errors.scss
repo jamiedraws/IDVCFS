@@ -1,0 +1,30 @@
+/**
+* @prettier
+*/
+
+$select: ".validation-summary-errors" !default;
+
+@use "../components/list" with (
+    $select: ".validation-summary-errors ul"
+);
+
+@mixin new {
+	@include list.new;
+
+	#{$select} {
+		margin-top: 3rem;
+
+		> span {
+			display: block;
+			border-bottom: 1px solid;
+			padding-bottom: 1rem;
+			margin: 0 0 1rem;
+		}
+
+		> ul {
+			@include list.bullet;
+		}
+
+		@content;
+	}
+}

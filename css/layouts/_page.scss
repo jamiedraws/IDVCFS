@@ -1,0 +1,21 @@
+/**
+* @prettier
+*/
+
+$select: ".page" !default;
+$breakpoint: 1200px !default;
+
+@mixin new {
+	#{$select} {
+		display: flex;
+		flex-direction: column;
+
+		@media all and (max-width: $breakpoint) {
+			&__main {
+				order: -1;
+			}
+		}
+
+		@content;
+	}
+}

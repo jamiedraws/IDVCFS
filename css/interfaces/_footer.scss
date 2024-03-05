@@ -1,0 +1,152 @@
+/**
+* @prettier
+*/
+
+@use "../layouts/group";
+@use "../layouts/form";
+@use "../layouts/slide";
+
+@use "../components/list";
+@use "../components/copy";
+@use "../components/social";
+
+$select: ".footer" !default;
+$picture-item-basis: 30rem;
+
+@mixin new {
+	@include list.new;
+	@include list.block;
+
+	@include group.new("#{$select}__group", auto);
+
+	@include form.contrast;
+
+	// adds branding colors to social links on hover (for svg/img)
+	@include social.img;
+
+	#{$select} {
+		&__pictures > #{$select}__group {
+			@include group.item-basis($picture-item-basis);
+		}
+
+		&__content > #{$select}__group {
+			@include group.gutter(2rem);
+		}
+
+		&__nav > #{$select}__group {
+			@include group.item-basis(20rem);
+			justify-content: flex-start;
+		}
+
+		&__social > #{$select}__group {
+			@include group.gutter(2rem);
+			align-items: center;
+		}
+
+		&__social picture {
+			min-width: 4rem;
+			background: none;
+		}
+
+		&__nav {
+			flex-basis: 100rem;
+		}
+
+		&__list {
+			@include copy.separate;
+
+			h3 {
+				font-size: 20px;
+				text-transform: uppercase;
+			}
+		}
+
+		&__form {
+			display: flex;
+			@include form.field-button(25rem, 17rem);
+			padding: 0;
+			border-radius: 0;
+			box-shadow: none;
+
+			input {
+				border: 0;
+				font-size: 16px;
+			}
+		}
+
+		&__address {
+			text-align: center;
+			font-style: normal;
+		}
+
+		@content;
+	}
+}
+
+@mixin carousel($breakpoint: $picture-item-basis) {
+	$nav-breakpoint: 300px;
+
+	@media all and (min-width: $nav-breakpoint) {
+		#{$select} {
+			&--carousel {
+				@include slide.take-out-nav($select);
+			}
+		}
+	}
+
+	#{$select} {
+		&--carousel {
+			margin: auto;
+
+			@include slide.convert-to-carousel($select) {
+				&__item {
+					max-width: none;
+				}
+
+				&__group {
+					margin: auto;
+				}
+
+				@media all and (min-width: $nav-breakpoint) {
+					&__group {
+						max-width: 92vw;
+					}
+
+					&__item {
+						max-width: 46vw;
+					}
+				}
+
+				@media all and (min-width: 40rem) {
+					&__group {
+						max-width: 92vw;
+					}
+
+					&__item {
+						max-width: 30vw;
+					}
+				}
+
+				@media all and (min-width: 60rem) {
+					&__group {
+						max-width: 96vw;
+					}
+
+					&__item {
+						max-width: 23.5vw;
+					}
+				}
+
+				@media all and (min-width: 70rem) {
+					&__group {
+						max-width: 155rem;
+					}
+
+					&__item {
+						max-width: 30rem;
+					}
+				}
+			}
+		}
+	}
+}
